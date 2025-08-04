@@ -1,0 +1,103 @@
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+
+import { RouterLink } from 'src/routes/components';
+
+import { fDateTime } from 'src/utils/format-time';
+import { generateItemPrintablePDF } from 'src/utils/printable-pdf';
+
+import { Label } from 'src/components/label';
+import { Iconify } from 'src/components/iconify';
+
+// ----------------------------------------------------------------------
+
+export function UserRoleDetailsToolbar({
+  item,
+  backLink,
+  status,
+  isMobile,
+}) {
+
+  return (
+    <>
+      <Stack spacing={3} direction={{ xs: 'column', md: 'row' }} sx={{ mb: { xs: 3, md: 5 } }}>
+        <Stack spacing={1} direction="row" alignItems="flex-start">
+          <IconButton component={RouterLink} href={backLink}>
+            <Iconify icon="eva:arrow-ios-back-fill" />
+          </IconButton>
+
+          <Stack spacing={0.5}>
+            <Stack spacing={1} direction='row' alignItems="center">
+              <Typography variant="h5"> Item </Typography>
+              <Label variant="soft" color="default">{item.sku || item.name}</Label>
+              <Label
+                variant="soft"
+                color={
+                  (status === 'active' && 'success') ||
+                  (status === 'confirmation_pending' && 'warning') ||
+                  (status === 'inactive' && 'error') ||
+                  'default'
+                }
+              >
+                {status}
+              </Label>
+            </Stack>
+
+            <Typography variant="body2" sx={{ color: 'text.disabled' }}>
+              Created: {fDateTime(item.createdTime)}
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'text.disabled' }}>
+              Last Modified: {fDateTime(item.lastModifiedTime)}
+            </Typography>
+          </Stack>
+        </Stack>
+
+        <Stack
+          flexGrow={1}
+          spacing={1.5}
+          direction='row'
+          alignItems="center"
+          justifyContent="flex-end"
+        >
+
+          <Button
+            color="inherit"
+            variant="outlined"
+            startIcon={<Iconify icon="solar:printer-minimalistic-bold" />}
+            onClick={() => {generateItemPrintablePDF({item})}}
+          >
+            Print
+          </Button>
+
+          {/* <Button color="inherit" variant="contained" startIcon={<Iconify icon="solar:pen-bold" />}>
+            Edit
+          </Button> */}
+        </Stack>
+      </Stack>
+
+      {/* <CustomPopover
+        open={popover.open}
+        anchorEl={popover.anchorEl}
+        onClose={popover.onClose}
+        slotProps={{ arrow: { placement: 'top-right' } }}
+      >
+        <MenuList>
+          {statusOptions.map((option) => (
+            <MenuItem
+              key={option.value}
+              selected={option.value === status}
+              onClick={() => {
+                popover.onClose();
+                onChangeStatus(option.value);
+              }}
+            >
+              {option.label}
+            </MenuItem>
+          ))}
+        </MenuList>
+      </CustomPopover> */}
+    </>
+  );
+}

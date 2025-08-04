@@ -1,0 +1,22 @@
+export const fieldsLoginUsers = [
+  'avatarUrl',
+  'companyName',
+  'createdTime',
+  'dateJoined',
+  'email',
+  'firstName',
+  'id',
+  'isActive',
+  'isStaff',
+  'isVerified',
+  'isApproved',
+  'lastLogin',
+  'lastModifiedTime',
+  'lastName',
+  'phoneNumber',
+  'username',
+  {
+    name: 'userRole',
+    fields: ['id', 'name'],
+  },
+];

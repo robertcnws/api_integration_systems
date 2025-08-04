@@ -1,0 +1,9 @@
+FROM nginx:alpine AS production
+
+COPY dist /usr/share/nginx/html
+
+COPY nginx.prod.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 3030
+
+CMD ["nginx", "-g", "daemon off;"]

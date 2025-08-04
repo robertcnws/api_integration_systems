@@ -1,0 +1,22 @@
+services:
+  api_integration_systems:
+    build:
+      context: ./backend_app
+      dockerfile: Dockerfile
+    container_name: api_integration_systems
+    restart: unless-stopped
+    volumes:
+      - ./backend_app:/app
+      - ./backend_app/gunicorn.conf.py:/etc/nginx/gunicorn.conf.py
+      - ./backend_app/static:/app/staticfiles
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend_app/.env
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
+    driver: bridge

@@ -1,0 +1,20 @@
+services:
+  aws_frontend_app:
+    build:
+      context: ./frontend_app
+      dockerfile: Dockerfile.aws.frontend.prod
+    container_name: aws_frontend_app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "3030:3030"
+    networks:
+      - net_integration
+    restart: unless-stopped
+
+networks:
+  net_integration:
+    driver: bridge
